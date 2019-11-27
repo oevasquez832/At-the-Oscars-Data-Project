@@ -1,6 +1,6 @@
 # And the Winner Goes to...
 
-An interactive Dashboard to display recent and historical Academy Award Winners.  User will be able to select years, categories and details for the following catagories.
+An interactive Dashboard to display recent and historical Academy Award Winners.  User will be able to select years, categories and details for the following categories.
 
 Best Movie,
 Best Actor,
@@ -21,7 +21,7 @@ Imdb,
 Cinemasight,
 Kaggle
 
-Landing Page has been created with links to four catagories
+Landing Page has been created with links to four categories
 Each category page will have 3 pages
   1) Graphs - Pie for genre / Bubble for Budget vs Rev / Bar - Ratings
   2) Map 
