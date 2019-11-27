@@ -1,7 +1,4 @@
-# Project-two
-Project Two
-
-And the Winner Goes to…..
+# And the Winner Goes to…..
 
 Create an interactive Dashboard to display recent and historical Academy Award Winners.  User will be able to select years, categories and details for the following catagories.
 
@@ -29,12 +26,3 @@ Each catagory page will have 3 pages
   1) Graphs - Pie for genre / Bubble for Budget vs Rev / Bar - Ratings
   2) Map - 
   3) Data
-
-
-
-Team Members
-  Solomon,
-  Dan,
-  Oscar,
-  Kenneth,
-  Kathleen
