@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Academy Awards Dashboard</title>
+    <!-- Boostrap Stylesheet -->
+    <!-- <link rel="stylesheet" href="assets/css/bootstrap.min.css" media="screen"> -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body onload="initialize()">
+    <div class="container">
+        <div class="row">
+                <div class="col-md-12 jumbotron text-center">
+                    <h1>Academy Awards Interactive Dashboard</h1>
+                    <p>Use the interactive charts below to explore the dataset</p>
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div id="pie"></div>
+                <select id="selDataset" onchange="getData(this.value)">
+                    <option value="datasetActor">Best Actor</option>
+                    <option value="datasetActress">Best Actress</option>
+                     <option value="datasetDirector">Best Director</option>
+                     <option value="datasetMovie">Best Movie</option>
+                </select>
+        
+        </div>
+    </div>  
+        <div class="row">
+            <div class="col-md-2">
+                <div id="bar"></div>
+                <select id="selDataset" onchange="getData(this.value)">
+                    <option value="actor_bar">Best Actor</option>
+                    <option value="actress_bar">Best Actress</option>
+                    <option value="director_bar">Best Director</option>
+                    <option value="picture_bar">Best Picture</option>
+            
+                </select>
+            </div>  
+        </div> 
+        <div class="row">
+        <div class="col-md-2">
+        <div id="scatter"></div>
+        <select id="selDataset" onchange="getData(this.value)">
+            <option value="actor_scatter">Best Actor</option>
+            <option value="actress_scatter">Best Actress</option>
+            <option value="director_scatter">Best Director</option>
+            <option value="picture_scatter">Best Picture</option>
+    
+        </select>
+        </div>
+        </div>   
+    <script>
+        
+        // Plot the default route once the page loads
+        
+        function initialize() {
+            var default_bar = "/actor_bar";
+            Plotly.d3.json(default_bar, function(error, response) {
+            if (error) return console.warn(error);
+            var data = response;
+            var layout = {
+                height: 600,
+                width: 800,
+                barmode: 'group'
+            };
+                Plotly.plot("bar", data);
+            });
+
+            var default_scatter = "/director_scatter";
+            Plotly.d3.json(default_scatter, function(error, response) {
+                if (error) return console.warn(error);
+                var data = [response];
+                console.log(data);
+                var layout = {
+                        xaxis: {
+                            range: [ 0, 100000000 ]
+                        },
+                        yaxis: {
+                            range: [0, 800000000]
+                        },
+                        legend: {
+                            y: 0.5,
+                            yref: 'paper',
+                            font: {
+                                family: 'Arial, sans-serif',
+                                size: 20,
+                                color: 'grey',
+                    }
+                }
+                };
+            Plotly.plot("scatter", data, layout);
+            });
+            init();
+        }
+        
+        // Update the plot with new data
+        function updateBar(newdata) {
+            console.log('update bar');
+            if( Array.isArray(newdata) ){
+                var layout = {barmode: 'group'};
+                Plotly.purge("bar");
+                Plotly.plot("bar", newdata, layout);
+            } else {
+                var Bar = document.getElementById('bar');
+                Plotly.restyle(Bar, 'x', [newdata.x])
+                Plotly.restyle(Bar, 'y', [newdata.y])
+            }
+        }
+        // Get new data whenever the dropdown selection changes
+        function getData(route) {
+            console.log(route);
+            Plotly.d3.json(`/${route}`, function(error, data) {
+                if (route.includes("scatter")) {
+                    plot_scatter(data)
+                } else {
+                    updateBar(data);
+                }
+            });
+        }
+
+        function plot_scatter(data) {
+            console.log('plot scatter');
+            console.log(data);
+            var plotdata = [data];
+           
+            Plotly.purge("scatter");
+            Plotly.plot("scatter", plotdata);
+        }
+        
+        // Update the plot with new data
+        function updateScatter(newdata) {
+            console.log('update');
+            plot_scatter(newdata);
+         }
+
+        function init() {
+        var data = [{
+        values: [11, 9, 3, 2, 1, 0, 0, 0],
+        labels: ["Biography", "Drama", "Comedy", "Crime", "Action", "Adventure", "Sci-fi", "Western"],
+        colors: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#8c564b", "#800080", "#C5B358", "#FF1493"],
+        textfont: {size:28, color:"#FFFFFF"},
+        hoverinfo:"label+percent", 
+            textinfo:"label",     
+        type: "pie"
+        }];
+
+        var layout = {
+            height: 700,
+            width: 800,
+            
+        };
+        Plotly.purge("pie");
+        Plotly.plot("pie", data, layout);
+        }
+
+        function updatePlotly1(newdata) {
+        var PIE = document.getElementById("pie");
+        Plotly.restyle(PIE, "values", [newdata]);
+        }
+
+        function getData1(dataset) {
+        var data = [];
+        switch (dataset) {
+            case "datasetActor":
+            data = [11, 9, 3, 2, 1, 0, 0, 0];
+            break;
+            case "datasetActress":
+            data = [8, 11, 4, 3, 0, 0, 0, 0];    
+            break;
+            case "datasetDirector":
+            data = [5, 9, 3, 3, 1, 3, 1, 1];
+            break;
+            case "datasetMovie":
+            data = [6, 9, 4, 3, 1, 2, 0, 1];
+            break;
+            default:
+            data = [11, 9, 3, 2, 1, 0, 0, 0];
+        }
+        updatePlotly1(data);
+        }
+
+
+
+
+
+    </script>
+
+
+</body>
+</html>
